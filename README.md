@@ -41,6 +41,10 @@ time wrdcntr LICENSE
 These benchmarks are run on a machine running Linux with a
 4-core i5-4670K @4.1Ghz CPU and 16GB RAM.
 
+Counting files of 1GB is also fast, and nicely saturates all cores:
+
+![Counting 1GB of words on a 32-core server](cpu-usage.png)
+
 ## Usage
 To use the word counter, supply a file:
 ```bash

@@ -13,27 +13,27 @@ pub type M<'a> = BTreeMap<&'a str, usize>;
 
 /// Application entrypoint.
 fn main() {
-	// Handle CLI arguments
-	let matches = App::new("wrdcntr")
-		.version("0.1")
-		.author("Tim Visee <timvisee@gmail.com>")
-		.about("Counts words, FAST!")
-		.arg(Arg::with_name("FILE")
-			.help("The file to count words in")
-			.takes_value(true)
-			.required(true))
-		.arg(Arg::with_name("stats")
+    // Handle CLI arguments
+    let matches = App::new("wrdcntr")
+        .version("0.1")
+        .author("Tim Visee <timvisee@gmail.com>")
+        .about("Counts words, FAST!")
+        .arg(Arg::with_name("FILE")
+            .help("The file to count words in")
+            .takes_value(true)
+            .required(true))
+        .arg(Arg::with_name("stats")
             .long("stats")
             .short("s")
-			.help("Show some extra word counting stats"))
-		.arg(Arg::with_name("no-output")
+            .help("Show some extra word counting stats"))
+        .arg(Arg::with_name("no-output")
             .long("no-output")
             .short("n")
-			.help("Do not print the result"))
-		.get_matches();
+            .help("Do not print the result"))
+        .get_matches();
 
     // Open the file and collect all it's lines
-	let path = matches.value_of("FILE").expect("no file selected");
+    let path = matches.value_of("FILE").expect("no file selected");
     let file = BufReader::new(File::open(path).expect("failed to open file"));
     let lines: Vec<String> = file.lines().map(|line| line.unwrap()).collect();
 
