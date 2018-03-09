@@ -1,0 +1,11 @@
+[package]
+name = "wrdcntr"
+version = "0.1.0"
+authors = ["timvisee <timvisee@gmail.com>"]
+
+[dependencies]
+clap = "2.31"
+rayon = "1.0"
+
+[profile.release]
+lto = true
