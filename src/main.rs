@@ -22,6 +22,10 @@ fn main() {
 			.help("The file to count words in")
 			.takes_value(true)
 			.required(true))
+		.arg(Arg::with_name("stats")
+            .long("stats")
+            .short("s")
+			.help("Show some extra word counting stats"))
 		.arg(Arg::with_name("no-output")
             .long("no-output")
             .short("n")
@@ -45,6 +49,13 @@ fn main() {
     // Print the results, unless specified otherwise
     if !matches.is_present("no-output") {
         result.iter().for_each(|(w, c)| println!("{}: {}", w, c));
+    }
+
+    // Print some extra word counting stats
+    if matches.is_present("stats") {
+        let total: usize = result.par_iter().map(|(_, c)| c).sum();
+        println!("> unique words: {}", result.len());
+        println!("> total words: {}", total);
     }
 }
 
