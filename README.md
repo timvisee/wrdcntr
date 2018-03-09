@@ -73,6 +73,10 @@ cargo build --release
 ./target/release/wrdcntr --help
 ```
 
+## License
+This project is released under the GNU GPL-3.0 license.
+Check out the [LICENSE](LICENSE) file for more information.
+
 
 [rust]: https://rust-lang.org/
 [rustup]: https://rustup.rs/
