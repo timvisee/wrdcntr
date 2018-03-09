@@ -1,9 +1,8 @@
-# wrdcntr - a FAST word counter
+# wrdcntr - a fast word counter in Rust
 This is a simple yet very fast word counter written in [Rust][rust].
 
-The counter reads all text from a given file, counts each word,
-and prints all words in alphabetical order with the number of times the word
-occurred in the file.
+The counter reads all text from a given file, counts all words,
+and prints the number of occurrences for each word in alphabetical order.
 
 All counting work is split across all CPU cores to count as quickly as possible,
 and is done in a [map/reduce][mapreduce]-like manner.
@@ -14,11 +13,39 @@ non-alphanumeric character. Spaces, punctuation and so on are not counted.
 The goal of this project is to show how powerful the Rust language can be with
 minimal effort.
 
+## Benchmark
+Here are a basic (and not very accurate) benchmarks with files included in the
+[`samples`](samples/) directory.
+
+```
+# 511KB with 115478 words
+time wrdcntr samples/book.txt
+# real    0m0,020s
+# user    0m0,043s
+# sys     0m0,001s
+
+# 30MB with 7205401 words
+time wrdcntr samples/many_books.txt
+# real    0m0,731s
+# user    0m2,290s
+# sys     0m0,003s
+
+# 35KB with 7074 words
+time wrdcntr LICENSE
+# real    0m0,003s
+# user    0m0,006s
+# sys     0m0,000s
+
+```
+
+These benchmarks are run on a machine running Linux with a
+4-core i5-4670K @4.1Ghz CPU and 16GB RAM.
+
 ## Usage
 To use the word counter, supply a file:
 ```bash
 # Count words
-wrdcntr some_text.txt
+wrdcntr samples/book.txt
 ```
 
 Which outputs:
