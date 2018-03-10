@@ -20,20 +20,20 @@ Here are a basic (and not very accurate) benchmarks with files included in the
 ```
 # 511KB with 115478 words
 time wrdcntr samples/book.txt
-# real    0m0,020s
-# user    0m0,043s
+# real    0m0,016s
+# user    0m0,027s
 # sys     0m0,001s
 
 # 30MB with 7205401 words
 time wrdcntr samples/many_books.txt
-# real    0m0,731s
-# user    0m2,290s
-# sys     0m0,003s
+# real    0m0,319s
+# user    0m0,805s
+# sys     0m0,021s
 
 # 35KB with 7074 words
 time wrdcntr LICENSE
-# real    0m0,003s
-# user    0m0,006s
+# real    0m0,002s
+# user    0m0,002s
 # sys     0m0,000s
 
 ```
