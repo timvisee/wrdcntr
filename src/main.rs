@@ -1,15 +1,16 @@
 extern crate clap;
 extern crate rayon;
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashMap};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 use clap::{Arg, App};
 use rayon::prelude::*;
 
-/// The type of map we're using.
-pub type M<'a> = BTreeMap<&'a str, usize>;
+/// A sorted and unsorted map type
+pub type U<'a> = HashMap<&'a str, usize>;
+pub type S<'a> = BTreeMap<&'a str, usize>;
 
 /// Application entrypoint.
 fn main() {
@@ -37,14 +38,15 @@ fn main() {
     let file = BufReader::new(File::open(path).expect("failed to open file"));
     let lines: Vec<String> = file.lines().map(|line| line.unwrap()).collect();
 
-    // Count words: iterate lines, split words, fold count and reduce
-    let result = lines.par_iter()
+    // Count words: iterate lines, split words, fold count, reduce and sort
+    let result: S = lines.par_iter()
         .map(|line|
-            line.par_split_terminator(|c: char| !c.is_alphanumeric())
-                .fold(|| BTreeMap::new(), fold_wc)
-                .reduce(|| BTreeMap::new(), reduce_map)
+            line.split_terminator(|c: char| !c.is_alphanumeric())
+                .fold(U::new(), fold_wc)
         )
-        .reduce(|| BTreeMap::new(), reduce_map);
+        .reduce(|| U::new(), reduce_map)
+        .into_iter()
+        .collect();
 
     // Print the results, unless specified otherwise
     if !matches.is_present("no-output") {
@@ -60,7 +62,7 @@ fn main() {
 }
 
 /// Count a word and put it in a map.
-fn fold_wc<'a>(mut map: M<'a>, word: &'a str) -> M<'a> {
+fn fold_wc<'a>(mut map: U<'a>, word: &'a str) -> U<'a> {
     {
         *map.entry(word).or_insert(0) += 1
     }
@@ -68,7 +70,7 @@ fn fold_wc<'a>(mut map: M<'a>, word: &'a str) -> M<'a> {
 }
 
 /// Reduce and sum a map.
-fn reduce_map<'a>(mut map: M<'a>, other: M<'a>) -> M<'a> {
+fn reduce_map<'a>(mut map: U<'a>, other: U<'a>) -> U<'a> {
     other.iter().for_each(|(key, value)|
         *map.entry(key).or_insert(0) += value
     );
