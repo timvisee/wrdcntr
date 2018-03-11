@@ -14,31 +14,34 @@ The goal of this project is to show how powerful the Rust language can be with
 minimal effort.
 
 ## Benchmark
-Here are a basic (and not very accurate) benchmarks with files included in the
-[`samples`](samples/) directory.
+Here are some basic benchmarks with files from the [`samples`](samples/)
+directory.  
+These benchmarks were done with the [hyperfine][hyperfine] tool,
+each timing 10 runs.
 
 ```
 # 511KB with 115478 words
-time wrdcntr samples/book.txt
-# real    0m0,016s
-# user    0m0,027s
-# sys     0m0,001s
+hyperfine 'wrdcntr samples/book.txt --no-output'
+# Time (mean ± σ):   10.4 ms ±  1.4 ms
+# Range (min … max):  8.7 ms … 19.0 ms
+# [User: 22.0 ms, System: 2.4 ms]
+
 
 # 30MB with 7205401 words
-time wrdcntr samples/many_books.txt
-# real    0m0,319s
-# user    0m0,805s
-# sys     0m0,021s
+hyperfine 'wrdcntr samples/many_books.txt --no-output'
+# Time (mean ± σ):   344.6 ms ±   9.9 ms
+# Range (min … max): 333.9 ms … 370.2 ms
+# [User: 865.0 ms, System: 37.7 ms]
 
 # 35KB with 7074 words
-time wrdcntr LICENSE
-# real    0m0,002s
-# user    0m0,002s
-# sys     0m0,000s
-
+hyperfine 'wrdcntr LICENSE --no-output'
+# Time (mean ± σ):   2.4 ms ±  1.0 ms    
+# Range (min … max): 1.3 ms … 12.5 ms
+# [User: 3.2 ms, System: 1.2 ms]
+# Note: possibly inaccurate, because timings were less than 5ms
 ```
 
-These benchmarks are run on a machine running Linux with a
+These benchmarks were done on a machine running Linux with a
 4-core i5-4670K @4.1Ghz CPU and 16GB RAM.
 
 Counting files of 1GB is also fast, and nicely saturates all cores:
@@ -109,6 +112,7 @@ This project is released under the GNU GPL-3.0 license.
 Check out the [LICENSE](LICENSE) file for more information.
 
 
+[hyperfine]: https://github.com/sharkdp/hyperfine
+[mapreduce]: https://en.wikipedia.org/wiki/MapReduce
 [rust]: https://rust-lang.org/
 [rustup]: https://rustup.rs/
-[mapreduce]: https://en.wikipedia.org/wiki/MapReduce
