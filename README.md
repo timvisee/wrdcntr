@@ -26,7 +26,6 @@ hyperfine 'wrdcntr samples/book.txt --no-output'
 # Range (min … max):  8.7 ms … 19.0 ms
 # [User: 22.0 ms, System: 2.4 ms]
 
-
 # 30MB with 7205401 words
 hyperfine 'wrdcntr samples/many_books.txt --no-output'
 # Time (mean ± σ):   344.6 ms ±   9.9 ms
